@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Interactive programming</title>
+</head>
+
+<body>
+	<h1 id="heading">Hello world!</h1>
+
+	<script src="http://code.jquery.com/jquery-2.1.0.js"></script>
+
+	<script>
+		var xOffset = 0;
+		var yOffset = 0;
+		var clickTimes = 1;
+
+		var moveHeading = function () {
+			$("#heading").offset({ left: xOffset, top: yOffset });
+			
+			if(xOffset === 200) {
+				yOffset += 2;
+			} else if (yOffset === 0) {
+				xOffset += 2;
+			}
+
+			if(yOffset === 200 && xOffset <= 200) {
+				xOffset -= 2;
+			}
+			if(yOffset <= 200 && xOffset === 0) {
+				yOffset -= 2;
+			}
+		};
+
+		var intervalId = setInterval(moveHeading, 30);
+		
+
+		var clickHandler = function (event) {
+			console.log("Click!");	
+
+			if(clickTimes === 10) {
+				$("#heading").text("You Win!");
+				clearInterval(intervalId);
+			} else {
+				clearInterval(intervalId);
+				intervalId = setInterval(moveHeading, (30/clickTimes));
+				$("#heading").text("You caught me " + clickTimes++ + " times");
+			};
+		};
+
+		$("h1").click(clickHandler);
+	</script>
+</body>
+</html>
